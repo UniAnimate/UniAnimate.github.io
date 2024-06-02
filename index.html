@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html>
+  
+  
+
+  
+  
+<head>
+  
+  <!-- <link href="css/two_style.css" rel="stylesheet" /> -->
+  
+
+  <meta charset="utf-8">
+  <!-- Meta tags for social media banners, these should be filled in appropriatly as they are your "business card" -->
+  <!-- Replace the content tag with appropriate information -->
+  <meta name="description" content="UniAnimate">
+  <meta property="og:title" content="UniAnimate"/>
+  <meta property="og:description" content="UniAnimate: Taming Unified Video Diffusion Models for Consistent Human Image Animation"/>
+  <meta property="og:url" content="URL OF THE WEBSITE"/>
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X630-->
+  <meta property="og:image" content="static/image/video_t1.png" />
+  <meta property="og:image:width" content="2412"/>
+  <meta property="og:image:height" content="1394"/>
+
+
+  <!-- <meta name="twitter:title" content="UniAnimate">
+  <meta name="twitter:description" content="UniAnimate: Taming Unified Video Diffusion Models for Consistent Human Image Animation"> -->
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X600-->
+  <!-- <meta name="twitter:image" content="static/images/video_t1.png">
+  <meta name="twitter:card" content="summary_large_image"> -->
+  <!-- Keywords for your paper to be indexed by-->
+  <!-- <meta name="keywords" content="Image-to-Video">
+  <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+
+
+  <title>UniAnimate</title>
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+  rel="stylesheet">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script src="static/js/bulma-carousel.min.js"></script>
+  <script src="static/js/bulma-slider.min.js"></script>
+  <script src="static/js/index.js"></script>
+</head>
+<body>
+
+  <!-- <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+    <div class="navbar-menu">
+      <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+        <a class="navbar-item" href=https://github.com/HumanAIGC>
+          <span class="icon">
+            <i class="fas fa-home"></i>
+          </span>
+        </a>
+
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            More Research
+          </a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://humanaigc.github.io/outfit-anyone/">
+              OutfitAnyone
+            </a>
+            <a class="navbar-item" href="https://tomguluson92.github.io/projects/cloth2tex/">
+              Cloth2Tex
+            </a>
+            <a class="navbar-item" href="https://humanaigc.github.io/vivid-talk/">
+              VividTalk
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </nav> -->
+
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">UniAnimate: Taming Unified Video Diffusion Models for Consistent Human Image Animation</h1>
+            <div class="is-size-5 publication-authors">
+              <!-- Paper authors -->
+              <span class="author-block">
+                <a href="https://scholar.google.com.hk/citations?user=cQbXvkcAAAAJ&hl=zh-CN&oi=sra" target="_blank">Xiang Wang</a><sup>1</sup>,&thinsp; &thinsp; </span>
+                <span class="author-block">
+                  <a href="https://scholar.google.com.hk/citations?user=ZO3OQ-8AAAAJ&hl=zh-CN" target="_blank">Shiwei Zhang</a><sup>2</sup>, &thinsp; &thinsp; </span>
+                  <span class="author-block">
+                    <a href="https://scholar.google.com.hk/citations?user=4tku-lwAAAAJ&hl=zh-CN" target="_blank">Changxin Gao</a><sup>1</sup>,&thinsp; &thinsp; </span>
+                    <span class="author-block">
+                      <a href="#" target="_blank">Jiayu Wang</a><sup>2</sup>,&thinsp; &thinsp; </span>
+                        <span class="author-block">
+                          <a href="https://scholar.google.com.hk/citations?user=Z2BTkNIAAAAJ&hl=zh-CN&oi=ao" target="_blank">Xiaoqiang Zhou</a><sup>3</sup>,&thinsp; &thinsp; </span>
+                            <span class="author-block">
+                              <a href="https://scholar.google.com.hk/citations?user=16RDSEUAAAAJ&hl=zh-CN" target="_blank">Yingya Zhang</a><sup>2</sup>,&thinsp; &thinsp; 
+                  </span>
+                            <span class="author-block">
+                              <a href="#" target="_blank">Luxin Yan</a><sup>1</sup>,&thinsp; &thinsp; 
+                  </span>
+                            <span class="author-block">
+                              <a href="https://scholar.google.com.hk/citations?user=ky_ZowEAAAAJ&hl=zh-CN" target="_blank">Nong Sang</a><sup>1</sup>
+                  </span>
+                  </div>
+
+                  <div class="is-size-5 publication-authors">
+                    <span class="author-block"><sup>1</sup>Huazhong University of Science and Technology,&thinsp; &thinsp;</span>
+                    <span class="author-block"><sup>2</sup>Alibaba Group,&thinsp; &thinsp;</span>
+                    <span class="author-block"><sup>3</sup>University of Science and Technology of China</span>
+                  </div>
+
+                  <div class="column has-text-centered">
+                    <div class="publication-links">
+                         <!-- Arxiv PDF link -->
+                      <span class="link-block">
+                        <a href="https://arxiv.org/pdf/xxxx.pdf" target="_blank"
+                        class="external-link button is-normal is-rounded is-dark">
+                        <span class="icon">
+                          <i class="fas fa-file-pdf"></i>
+                        </span>
+                        <span>Paper</span>
+                      </a>
+                    </span>
+
+                    <!-- Video link -->
+                    <span class="link-block">
+                      <a href="https://www.youtube.com/watch?v=8PCn5hLKNu4" target="_blank"
+                      class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">
+                        <i class="fab fa-youtube"></i>
+                      </span>
+                      <span>video</span>
+                    </a>
+                  </span>
+
+                  <!-- Github link -->
+                  <span class="link-block">
+                    <a href="https://github.com/HumanAIGC/AnimateAnyone" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span>
+              
+
+                <!-- ArXiv abstract Link -->
+                <!-- <span class="link-block">
+                  <a href="https://arxiv.org/pdf/xxxx.pdf" target="_blank"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Teaser video-->
+<section class="hero teaser">
+  <div class="hero-body">
+  <div class="container is-max-desktop">
+    <!-- <div class="hero-body"> -->
+      <!-- <video poster="" id="tree" autoplay controls muted loop height="100%"> -->
+        <!-- Your video here -->
+        <!-- <source src="static/images/teaser.png"
+        type="video/mp4">
+      </video> -->
+      <img src="static/images/teaser.png" alt="MY ALT TEXT"/>
+      </h2>
+    </div>
+  <!-- </div> -->
+</div>
+</section>
+<!-- End teaser video -->
+
+<!-- Teaser video-->
+<section class="hero teaser">
+  <div class="hero-body">
+  <div class="container is-max-desktop">
+    <!-- <div class="hero-body"> -->
+      <video poster="" id="tree" autoplay controls muted loop height="100%">
+        <source src="https://cloud.video.taobao.com/vod/play/cFNxeHpNYjAzV3EycWo/S0hMQVVES0hTM2lJYXNrMzIvZDg1SG9hdCtMMjZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ"
+        type="video/mp4">
+      </video> 
+      </h2>
+    </div>
+  </div>
+</section>
+<!-- End teaser video -->
+
+<!-- Paper abstract -->
+<section class="section hero is-light">
+  <div class="hero-body">
+  <div class="container is-max-desktop is-centered has-text-centered">
+    <!-- <div class="columns is-centered has-text-centered"> -->
+      <!-- <div class="column is-four-fifths"> -->
+        <h2 class="title is-3">Abstract</h2>
+        <!-- <h2 class="title is-3">Abstract</h2> -->
+        <div class="content has-text-justified">
+          <p>
+            Recent diffusion-based human image animation techniques have demonstrated impressive success in synthesizing videos that faithfully follow a given reference identity and a sequence of desired movement poses. Despite this, there are still two limitations: i) an extra reference model is required to align the identity image with the main video branch, which significantly increases the optimization burden and model parameters; ii) the generated video is usually short in time (e.g., 24 frames), hampering practical applications. To address these shortcomings, we present a UniAnimate framework to enable efficient and long-term human video generation. First, to reduce the optimization difficulty and ensure temporal coherence, we map the reference image along with the posture guidance and noise video into a common feature space by incorporating a unified video diffusion model. Second, we propose a unified noise input that supports random noised input as well as first frame conditioned input, which enhances the ability to generate long-term video. Finally, to further efficiently handle long sequences, we explore an alternative temporal modeling architecture based on state space model to replace the original computation-consuming temporal Transformer. Extensive experimental results indicate that UniAnimate achieves superior synthesis results over existing state-of-the-art counterparts in both quantitative and qualitative evaluations. Notably, UniAnimate can even generate highly consistent one-minute videos by iteratively employing the first frame conditioning strategy. Code and models will be publicly available.
+          </p>
+        </div>
+      <!-- </div> -->
+    <!-- </div> -->
+  </div>
+  </div>
+</section>
+<!-- End paper abstract -->
+
+
+
+
+
+<!-- <section class="hero is-small">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3">Demo Video</h2>
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          
+          <video poster="" id="tree" autoplay controls muted loop height="100%">
+            <source src="https://cloud.video.taobao.com/vod/play/cFNxeHpNYjAzV3EycWo/S0hMQVVESkJKQXJrdk4wd1VMSUtsR3FNVTAvcTZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ"
+            type="video/mp4">
+          </video> 
+          </h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</section> -->
+<!-- End youtube video -->
+
+
+<!-- Image carousel -->
+<section class="hero is-small">
+<!-- <section class="hero is-light"> -->
+  <div class="hero-body">
+    <div class="container is-max-desktop is-centered has-text-centered">
+      <h2 class="title is-3">Overall Framework of UniAnimate</h2>
+      <div class="item">
+        <!-- Your image here -->
+        <img src="static/images/network.png" alt="MY ALT TEXT"/>
+        <h2 class="content has-text-justified">
+          The overall architecture of the proposed UniAnimate. Firstly, we utilize the CLIP encoder and VAE encoder to extract latent features of the given reference image. To facilitate the learning of the human body structure in the reference image, we also incorporate the representation of the reference pose into the final reference guidance. Subsequently, we employ a pose encoder to encode the target driven pose sequence and concatenate it with the noised input along the channel dimension. The noised input is derived from the first frame conditioned video or a noised video. Then, the concatenated noised input is stacked with the reference guidance along the temporal dimension and fed into the unified video diffusion model to remove noise. The temporal module in the unified video diffusion model can be the temporal Transformer or temporal Mamba. Finally, a VAE decoder is adopted to map the generated latent video to the pixel space.
+       </h2>
+     </div>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+<!-- End image carousel -->
+
+
+<!-- Youtube video -->
+<!-- Teaser video-->
+<section class="section hero is-small is-light 2d">
+  <div class="hero-body">
+  <div class="container is-max-desktop is-centered has-text-centered">
+    <h2 class="title is-3">Overview: Summary of the Generated Videos</h2>
+      <video poster="" id="tree" controls muted loop height="120%">
+        <source src="https://cloud.video.taobao.com/vod/play/cFNxeHpNYjAzV3EycWo/S0hMQVVESkJKQXJrdk4wd1VMSUtsR3FNVTAvcTZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ"
+        type="video/mp4">
+      </video> 
+      </h2>
+    </div>
+  </div>
+</section>
+<!-- End teaser video -->
+
+
+
+
+
+
+
+
+<!-- Video carousel -->
+
+<!-- Video carousel -->
+<!-- <section class="hero is-small is-light"> -->
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container is-centered has-text-centered">
+      <!-- <div class="hero-body"> -->
+      <h2 class="title is-3">Animating Real Model Characters</h2>
+      <!-- <h2 class="title is-4">Human</h2> -->
+      <!-- <div id="results-carousel11" class="carousel results-carousel"> -->
+      <!-- <div id="results-carousel11" class="carousel results-carousel" data-interval="8000"> -->
+      <div id="results-carousel11" class="carousel results-carousel" data-bs-ride="carousel" data-interval="16000">
+        <div class="item item-video1">
+          <video poster="" id="video1" autoplay controls muted loop height="90%">
+            <!-- Your video file here -->
+            <source src="https://cloud.video.taobao.com/vod/play/cHN2MEt1bTc4Sk11bDVSUEErSWRUaXlON2JGNGtUbTJkc1ErRWc0WnYrZTZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video2">
+          <video poster="" id="video2" autoplay controls muted loop height="90%">
+            <!-- Your video file here -->
+            <source src="https://cloud.video.taobao.com/vod/play/NnJFOHRjbmRmOHd2QytLQlE2MGdkVGQySUZST3ZJbw/MWx6dTZHZzNqNTI2UGVsNUp6SlVVQk5YeDlRTjdFeVFFTFA3bmNUSWpPNlRNbHV3R04zTmh3PT0"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video3">
+          <video poster="" id="video3" autoplay controls muted loop height="90%">\
+            <!-- Your video file here -->
+            <source src="https://cloud.video.taobao.com/vod/play/cHN2MEt1bTc4Sk11bDVSUEErSWRUdTFGa2wrMHNHOEdvSUo2TWxocXhmUzZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video3">
+          <video poster="" id="video3" autoplay controls muted loop height="90%">\
+            <!-- Your video file here -->
+            <source src="https://cloud.video.taobao.com/vod/play/c1lFZDBnZ09qUWptZHltcnNydnk/UGVLdDl1YnRKZHlGcFJOY1dXY21tdTZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video3">
+          <video poster="" id="video3" autoplay controls muted loop height="90%">\
+            <!-- Your video file here -->
+            <source src="https://cloud.video.taobao.com/vod/play/c1lFZDBnZ09qUWptZHltcnNydnk/UGtXRm1yMDhvancwWmZ5d0NXcnJhdTZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video3">
+          <video poster="" id="video3" autoplay controls muted loop height="90%">\
+            <!-- Your video file here -->
+            <source src="https://cloud.video.taobao.com/vod/play/c1lFZDBnZ09qUWptZHltcnNydnk/RjlCM1orZzFMKyt1TGIya3h5RFdidTZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video3">
+          <video poster="" id="video3" autoplay controls muted loop height="90%">\
+            <!-- Your video file here -->
+            <source src="https://cloud.video.taobao.com/vod/play/c1lFZDBnZ09qUWptZHltcnNydnk/SGJvS0VjTDJ6NEpVYThGV1gzTloxbTZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video3">
+          <video poster="" id="video3" autoplay controls muted loop height="90%">\
+            <!-- Your video file here -->
+            <source src="https://cloud.video.taobao.com/vod/play/c1lFZDBnZ09qUWptZHltcnNydnk/S1ErTHBRSGI2YXlYWlFSMFVxalVLQzZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video3">
+          <video poster="" id="video3" autoplay controls muted loop height="90%">\
+            <!-- Your video file here -->
+            <source src="https://cloud.video.taobao.com/vod/play/c1lFZDBnZ09qUWptZHltcnNydnk/QlFrZXcxeVNOS3JVZ3ByVm03S3Y1cTZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ"
+            type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Video carousel -->
+<!-- <section class="hero is-small is-light"> -->
+<section class="hero is-light">
+  <div class="hero-body">
+    <div class="container is-centered has-text-centered">
+      <!-- <div class="hero-body"> -->
+      <h2 class="title is-3">Animating Synthesized Model Characters</h2>
+      <!-- <h2 class="title is-4">Human</h2> -->
+      <!-- <div id="results-carousel11" class="carousel results-carousel"> -->
+      <!-- <div id="results-carousel11" class="carousel results-carousel" data-interval="8000"> -->
+      <div id="results-carousel12" class="carousel results-carousel" data-bs-ride="carousel" data-interval="16000">
+        <div class="item item-video1">
+          <video poster="" id="video1" autoplay controls muted loop height="90%">
+            <!-- Your video file here -->
+            <source src="https://cloud.video.taobao.com/vod/play/NnJFOHRjbmRmOHd2QytLQlE2MGdkWStjM0dCUjJLSEE5NmlxejBNalhkRzZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video2">
+          <video poster="" id="video2" autoplay controls muted loop height="90%">
+            <!-- Your video file here -->
+            <source src="https://cloud.video.taobao.com/vod/play/NnJFOHRjbmRmOHd2QytLQlE2MGdkYW1CSkZyTk9YWmp1a1hhMnA4aERjMjZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video3">
+          <video poster="" id="video3" autoplay controls muted loop height="90%">\
+            <!-- Your video file here -->
+            <source src="https://cloud.video.taobao.com/vod/play/NnJFOHRjbmRmOHd2QytLQlE2MGdkU0hNNHVUV29tTFlQUFBlZjlVK3NzYTZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video3">
+          <video poster="" id="video3" autoplay controls muted loop height="90%">\
+            <!-- Your video file here -->
+            <source src="https://cloud.video.taobao.com/vod/play/RUpvZ2RmMXkwMm9jUQ/NlYyVnZxNThya05lNGJxVHFLWmt5LzYwVHBGa082UGVsNUp6SlVVQk5YeDlRTjdFeVFFTFA3bmNUSWpPNlRNbHV3R04zTmh3PT0"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video3">
+          <video poster="" id="video3" autoplay controls muted loop height="90%">\
+            <!-- Your video file here -->
+            <source src="https://cloud.video.taobao.com/vod/play/cklndWtyUnlFVTBPa0plSE1xWkNZbjBXMzJHWUZZVXFqNw/Vi80dVg3bUc2UGVsNUp6SlVVQk5YeDlRTjdFeVFFTFA3bmNUSWpPNlRNbHV3R04zTmh3PT0"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video3">
+          <video poster="" id="video3" autoplay controls muted loop height="90%">\
+            <!-- Your video file here -->
+            <source src="https://cloud.video.taobao.com/vod/play/N1B4WW90REwxK2FXbzNlUzl3bm5hd0paQmpUd216Zm14UXFpUW82enNmUzZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video3">
+          <video poster="" id="video3" autoplay controls muted loop height="90%">\
+            <!-- Your video file here -->
+            <source src="https://cloud.video.taobao.com/vod/play/N1B4WW90REwxK2FXbzNlUzl3bm5hMVdGNEEyMHcyQ3h4SHFEcTJUVEpReTZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video3">
+          <video poster="" id="video3" autoplay controls muted loop height="90%">\
+            <!-- Your video file here -->
+            <source src="https://cloud.video.taobao.com/vod/play/WGNZTWZaWWtGK1Y2SVBHZlpYRjNWNlA2SlJVbDR4cGo2aGFWS0FxNG9uNjZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ"
+            type="video/mp4">
+          </video>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End video carousel -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- End video carousel -->
+
+
+<!-- Video carousel -->
+<!-- <section class="hero is-small is-light"> -->
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container is-centered has-text-centered">
+      <!-- <div class="hero-body"> -->
+      <h2 class="title is-3">Animating Clay Style Characters</h2>
+      <!-- <h2 class="title is-4">Human</h2> -->
+      <!-- <div id="results-carousel11" class="carousel results-carousel"> -->
+      <!-- <div id="results-carousel11" class="carousel results-carousel" data-interval="8000"> -->
+      <div id="results-carousel13" class="carousel results-carousel" data-bs-ride="carousel" data-interval="16000">
+        <div class="item item-video1">
+          <video poster="" id="video1" autoplay controls muted loop height="90%">
+            <!-- Your video file here -->
+            <source src="https://cloud.video.taobao.com/vod/play/dFdRSDd2MjNTdzVEMDVrb3ZvZjFyOVVrZ1FvQ2Fjd2ZYN3JNcUZldllLeTZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video2">
+          <video poster="" id="video2" autoplay controls muted loop height="90%">
+            <!-- Your video file here -->
+            <source src="https://cloud.video.taobao.com/vod/play/aWdXR1c1djUzaUo5aVhCY01MRDFrbzhsUjBpcnB0R1hNWTY0cDc4TlFpeTZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video3">
+          <video poster="" id="video3" autoplay controls muted loop height="90%">\
+            <!-- Your video file here -->
+            <source src="https://cloud.video.taobao.com/vod/play/dFdRSDd2MjNTdzVEMDVrb3ZvZjFyOW8yNDZlakRxQWEyYlZtZDBQb1phNjZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video3">
+          <video poster="" id="video3" autoplay controls muted loop height="90%">\
+            <!-- Your video file here -->
+            <source src="https://cloud.video.taobao.com/vod/play/Sm9TU3VhaGlK/WXNZN29kZzlKcDlNWDJydURPUjBacUo0RHJlT0RtWHFXNlBlbDVKekpVVUJOWHg5UU43RXlRRUxQN25jVElqTzZUTWx1d0dOM05odz09"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video3">
+          <video poster="" id="video3" autoplay controls muted loop height="90%">\
+            <!-- Your video file here -->
+            <source src="https://cloud.video.taobao.com/vod/play/dFdRSDd2MjNTdzVEMDVrb3ZvZjFyMmpkM3FYRmRadjY0d21HZ3lHNlRteTZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video3">
+          <video poster="" id="video3" autoplay controls muted loop height="90%">\
+            <!-- Your video file here -->
+            <source src="https://cloud.video.taobao.com/vod/play/aWdXR1c1djUzaUo5aVhCY01MRDFrclhXdQ/Tk84akJ0aEd3bnBzRjh3UzI2UGVsNUp6SlVVQk5YeDlRTjdFeVFFTFA3bmNUSWpPNlRNbHV3R04zTmh3PT0"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video3">
+          <video poster="" id="video3" autoplay controls muted loop height="90%">\
+            <!-- Your video file here -->
+            <source src="https://cloud.video.taobao.com/vod/play/aWdXR1c1djUzaUo5aVhCY01MRDFrcGpQQkwrV1hqMENrRlFOam1jSVN1TzZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ"
+            type="video/mp4">
+          </video>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End video carousel -->
+
+
+
+
+<!-- End video carousel -->
+
+
+<!-- Video carousel -->
+<!-- <section class="hero is-small is-light"> -->
+<section class="hero is-light">
+  <div class="hero-body">
+    <div class="container is-centered has-text-centered">
+      <!-- <div class="hero-body"> -->
+      <h2 class="title is-3">Internationaly Renowned Figure: Elon Musk</h2>
+      <!-- <h2 class="title is-4">Human</h2> -->
+      <!-- <div id="results-carousel11" class="carousel results-carousel"> -->
+      <!-- <div id="results-carousel11" class="carousel results-carousel" data-interval="8000"> -->
+      <div id="results-carousel14" class="carousel results-carousel" data-bs-ride="carousel" data-interval="16000">
+        <div class="item item-video1">
+          <video poster="" id="video1" autoplay controls muted loop height="90%">
+            <!-- Your video file here -->
+            <source src="https://cloud.video.taobao.com/vod/play/MFZmYUNZdEdTYWhxcGxLQ1lSK2hGN0NEZUNINEE3YlQ1ZEJ0NTIwSHJzNjZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video2">
+          <video poster="" id="video2" autoplay controls muted loop height="90%">
+            <!-- Your video file here -->
+            <source src="https://cloud.video.taobao.com/vod/play/eFpjbDd2cGVEcDR0YUNWRQ/cWxUTmxFUHJIVGpVL2t3ckphVm1OSFMzU3E2UGVsNUp6SlVVQk5YeDlRTjdFeVFFTFA3bmNUSWpPNlRNbHV3R04zTmh3PT0"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video3">
+          <video poster="" id="video3" autoplay controls muted loop height="90%">\
+            <!-- Your video file here -->
+            <source src="https://cloud.video.taobao.com/vod/play/eFpjbDd2cGVEcDR0YUNWRQ/cWxUTmd6aWlVUm9vYkNuSWIxclErZEppNkc2UGVsNUp6SlVVQk5YeDlRTjdFeVFFTFA3bmNUSWpPNlRNbHV3R04zTmh3PT0"
+            type="video/mp4">
+          </video>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End video carousel -->
+
+<!-- Video carousel -->
+
+<!-- End video carousel -->
+
+
+
+
+
+
+
+
+
+<!-- Video carousel -->
+<!-- <section class="hero is-small is-light"> -->
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container is-centered has-text-centered">
+      <!-- <div class="hero-body"> -->
+      <h2 class="title is-3">Animating Other Cross-Domain Characters</h2>
+      <!-- <h2 class="title is-4">Human</h2> -->
+      <!-- <div id="results-carousel11" class="carousel results-carousel"> -->
+      <!-- <div id="results-carousel11" class="carousel results-carousel" data-interval="8000"> -->
+      <div id="results-carousel13" class="carousel results-carousel" data-bs-ride="carousel" data-interval="16000">
+        <div class="item item-video1">
+          <video poster="" id="video1" autoplay controls muted loop height="90%">
+            <!-- Your video file here -->
+            <source src="https://cloud.video.taobao.com/vod/play/eFpjbDd2cGVEcDR0YUNWRQ/cWxUTnZDS25tLytBYVBOUEY5KzdTNjRwS202UGVsNUp6SlVVQk5YeDlRTjdFeVFFTFA3bmNUSWpPNlRNbHV3R04zTmh3PT0"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video2">
+          <video poster="" id="video2" autoplay controls muted loop height="90%">
+            <!-- Your video file here -->
+            <source src="https://cloud.video.taobao.com/vod/play/eFpjbDd2cGVEcDR0YUNWRQ/cWxUTmdpQTdORlVLQzl1cDFyaENSRVJsd1c2UGVsNUp6SlVVQk5YeDlRTjdFeVFFTFA3bmNUSWpPNlRNbHV3R04zTmh3PT0"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video3">
+          <video poster="" id="video3" autoplay controls muted loop height="90%">\
+            <!-- Your video file here -->
+            <source src="https://cloud.video.taobao.com/vod/play/eFpjbDd2cGVEcDR0YUNWRQ/cWxUTnRQSzMzUjBraEFuM2Z1clhNcUhXOCs2UGVsNUp6SlVVQk5YeDlRTjdFeVFFTFA3bmNUSWpPNlRNbHV3R04zTmh3PT0"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video3">
+          <video poster="" id="video3" autoplay controls muted loop height="90%">\
+            <!-- Your video file here -->
+            <source src="https://cloud.video.taobao.com/vod/play/UmRPNzYrMm54TUVqQ2hTWWIyWGplWHNldE9GZFQ4VERTdEFXRU91SmJHeTZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video3">
+          <video poster="" id="video3" autoplay controls muted loop height="90%">\
+            <!-- Your video file here -->
+            <source src="https://cloud.video.taobao.com/vod/play/UmRPNzYrMm54TUVqQ2hTWWIyWGplZFdIYWM/YlRVWXpZTTdOUGIyVFlxZTZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video3">
+          <video poster="" id="video3" autoplay controls muted loop height="90%">\
+            <!-- Your video file here -->
+            <source src="https://cloud.video.taobao.com/vod/play/UmRPNzYrMm54TUVqQ2hTWWIyWGplYWpsdDIwQllRMzFpajAwcWZCa2x2MjZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video3">
+          <video poster="" id="video3" autoplay controls muted loop height="90%">\
+            <!-- Your video file here -->
+            <source src="https://cloud.video.taobao.com/vod/play/V1FZZnBLNkEwMUJYUVlMbXNlVHlmTVJDQ2hrRkZyeW0/MmkzUlNwc2p4bTZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video3">
+          <video poster="" id="video3" autoplay controls muted loop height="90%">\
+            <!-- Your video file here -->
+            <source src="https://cloud.video.taobao.com/vod/play/V1FZZnBLNkEwMUJYUVlMbXNlVHlmQU5QMEVkZ2VWQXd4SHlwbHM3/NUZHNlBlbDVKekpVVUJOWHg5UU43RXlRRUxQN25jVElqTzZUTWx1d0dOM05odz09"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video3">
+          <video poster="" id="video3" autoplay controls muted loop height="90%">\
+            <!-- Your video file here -->
+            <source src="https://cloud.video.taobao.com/vod/play/OWM0M0VuQWRXS2JoRlQrakFqbUhEM0RKclRCbWkyT3V2QVRlellXcjZiSzZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video3">
+          <video poster="" id="video3" autoplay controls muted loop height="90%">\
+            <!-- Your video file here -->
+            <source src="https://cloud.video.taobao.com/vod/play/Y2lBU0tZc2NxSXZTbTY/ZHdha1NDUU1hdms3Y1Rsb1J1NGk3Q21TalUzMjZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ"
+            type="video/mp4">
+          </video>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End video carousel -->
+
+
+
+
+
+<!-- Video carousel -->
+<!-- <section class="hero is-small is-light"> -->
+<section class="hero is-light">
+  <div class="hero-body">
+    <div class="container is-centered has-text-centered">
+      <!-- <div class="hero-body"> -->
+      <h2 class="title is-3">Internationaly Renowned Figure: Yann LeCun</h2>
+      <!-- <h2 class="title is-4">Human</h2> -->
+      <!-- <div id="results-carousel11" class="carousel results-carousel"> -->
+      <!-- <div id="results-carousel11" class="carousel results-carousel" data-interval="8000"> -->
+      <div id="results-carousel14" class="carousel results-carousel" data-bs-ride="carousel" data-interval="16000">
+        <div class="item item-video1">
+          <video poster="" id="video1" autoplay controls muted loop height="90%">
+            <!-- Your video file here -->
+            <source src="https://cloud.video.taobao.com/vod/play/YXpKenlBbTg3ck5VYjlVZk5jckxDNlJmZUJrQVNOWHp5S3lDeGh4ZEI1aTZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video2">
+          <video poster="" id="video2" autoplay controls muted loop height="90%">
+            <!-- Your video file here -->
+            <source src="https://cloud.video.taobao.com/vod/play/YXpKenlBbTg3ck5VYjlVZk5jckxDNmRubFhGaXdUbUdsdzltMGZVYUI3VzZQZWw1SnpKVVVCTlh4OVFON0V5UUVMUDduY1RJak82VE1sdXdHTjNOaHc9PQ"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video1">
+          <video poster="" id="video1" autoplay controls muted loop height="90%">
+            <!-- Your video file here -->
+            <source src="https://cloud.video.taobao.com/vod/play/am9KOHBSdENGYU9qSXBMN3djOW80ZmpBQ2hJWjNL/SUNRMzM1UDBaV2E2NlBlbDVKekpVVUJOWHg5UU43RXlRRUxQN25jVElqTzZUTWx1d0dOM05odz09"
+            type="video/mp4">
+          </video>
+        </div>
+      
+        
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End video carousel -->
+
+
+
+
+
+<!-- Video carousel -->
+
+<!-- End video carousel -->
+
+<!-- Video carousel -->
+
+<!-- End video carousel -->
+
+<!--BibTex citation -->
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">Reference</h2>
+    <pre><code>@article{wang2024unianimate,
+      title={UniAnimate: Taming Unified Video Diffusion Models for Consistent Human Image Animation},
+      author={Wang, Xiang and Zhang, Shiwei and Gao, Changxin and Wang, Jiayu and Zhou, Xiaoqiang and Zhang, Yingya and Yan, Luxin and Sang, Nong},
+      journal={arXiv preprint arXiv:2406.xxxxx},
+      year={2024}
+}
+@inproceedings{TFT2V,
+      title={A Recipe for Scaling up Text-to-Video Generation with Text-free Videos},
+      author={Wang, Xiang and Zhang, Shiwei and Yuan, Hangjie and Qing, Zhiwu and Gong, Biao and Zhang, Yingya and Shen, Yujun and Gao, Changxin and Sang, Nong},
+      booktitle={CVPR},
+      year={2024}
+}
+@article{VideoComposer,
+      title={VideoComposer: Compositional Video Synthesis with Motion Controllability},
+      author={Wang, Xiang and Yuan, Hangjie and Zhang, Shiwei and Chen, Dayou and Wang, Jiuniu and Zhang, Yingya and Shen, Yujun and Zhao, Deli and Zhou, Jingren},
+      journal={NeurIPS},
+      year={2023}
+}</code>
+      </pre>
+  </div>
+</section>
+
+
+  <footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8 text-center">
+        <div class="content text-center">
+
+          <p><font color='red'>
+            If you feel that the images we use infringe your rights, please contact us and we will delete them immediately and express our sincere apologies. Contact email: wxiang@hust.edu.cn.</font>
+             This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a>  project page.
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// bulmaCarousel.attach('#results-carousel11', {
+//     slidesToScroll: 1,
+//     slidesToShow: 2,
+//     infinite: true,
+//     autoplay: true,
+//     // autoplay: true,
+// });
+bulmaCarousel.attach('#results-carousel22', {
+    slidesToScroll: 1,
+    slidesToShow: 2,
+    infinite: true,
+    autoplay: false,
+});
+bulmaCarousel.attach('#results-carousel33', {
+    slidesToScroll: 1,
+    slidesToShow: 2,
+    infinite: true,
+    autoplay: false,
+});
+</script>
+
+<!-- Statcounter tracking code -->
+  
+<!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
+
+    <!-- End of Statcounter Code -->
+
+  </body>
+  </html>
